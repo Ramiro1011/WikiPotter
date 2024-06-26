@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activityCharacter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_hogwarts" />
+
+    <Button
+        android:id="@+id/loginGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="384dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="299dp"
+        android:backgroundTint="@color/gold"
+        android:text="Iniciar sesión con Google"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+</RelativeLayout>

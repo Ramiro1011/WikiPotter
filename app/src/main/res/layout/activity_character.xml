@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activityCharacter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo_hogwarts"
+    tools:context=".ui.CharacterActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/pbChar"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Imagen del Personaje -->
+            <ImageView
+                android:id="@+id/imgChar"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/neumorphism_bg"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <!-- Nombre del Personaje -->
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/harry_potter"
+                android:textColor="#FFD700"
+                android:textSize="40sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgChar"
+                tools:text="Harry Potter" />
+
+            <!-- Detalles Básicos -->
+            <TextView
+                android:id="@+id/txtActor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:fontFamily="serif"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/basicDetails"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtName"
+                tools:text="Daniel Radcliffe" />
+
+
+            <!-- Detalles Adicionales -->
+
+            <LinearLayout
+                android:id="@+id/basicDetails"
+                android:layout_width="0dp"
+                android:layout_height="270dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/neumorphism_bg"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtName">
+
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="serif"
+                    android:text="Details"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtAliases"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="serif"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="The Boy Who Lived" />
+
+
+                <TextView
+                    android:id="@+id/txtSpecies"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="serif"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Human" />
+
+                <TextView
+                    android:id="@+id/txtHouse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="serif"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Gryffindor" />
+
+                <TextView
+                    android:id="@+id/txtDateOfBirth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="serif"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="July 31, 1980" />
+
+                <TextView
+                    android:id="@+id/txtAncestry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="serif"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Half-blood" />
+
+                <TextView
+                    android:id="@+id/txtHogwartsRole"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="serif"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Student" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/additionalDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/neumorphism_bg"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/basicDetails">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:text="Others Details"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/txtWand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="serif"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Holly, Phoenix Feather" />
+
+                <TextView
+                    android:id="@+id/txtPatronus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="serif"
+                    android:text="Stag"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtEyeColour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="serif"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Green" />
+
+                <TextView
+                    android:id="@+id/txtHairColour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="serif"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Black" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Botón de Favorito -->
+    <ImageButton
+        android:id="@+id/btn_favorite"
+        android:layout_width="33dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/star_selector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/pbChar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:indeterminate="true"
+        android:indeterminateTint="#FF9C27B0"
+        android:max="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
