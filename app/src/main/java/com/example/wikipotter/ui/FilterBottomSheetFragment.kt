@@ -50,7 +50,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         val staffCheckBox: CheckBox = view.findViewById(R.id.staff)
 
         val applyFiltersButton: Button = view.findViewById(R.id.applyFiltersButton)
-        val closeButton: ImageButton = view.findViewById(R.id.closeButton)
+        val closeButton: Button = view.findViewById(R.id.closeButton)
         val favBtn: Button = view.findViewById(R.id.favBtn)
         val clearFiltersBtn: Button = view.findViewById(R.id.clearFiltersButton)
 

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +38,9 @@ class MainActivity : AppCompatActivity(), FilterBottomSheetFragment.FilterListen
         //para activar la barra del menu
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        //Cambia el color de la status bar para que sea del mismo que la toolbar
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+
         //Para poner el fondo borroso
         val rootLayout = findViewById<ConstraintLayout>(R.id.activityCharacter)
         val background = resources.getDrawable(R.drawable.fondo_hogwarts, null)
@@ -60,7 +64,7 @@ class MainActivity : AppCompatActivity(), FilterBottomSheetFragment.FilterListen
             adapter.update(it)
         }
 
-        viewModel.init()
+        viewModel.init(this)
 
     }
 
@@ -109,6 +113,7 @@ class MainActivity : AppCompatActivity(), FilterBottomSheetFragment.FilterListen
         menuInflater.inflate(R.menu.main_menu, menu)
 
         supportActionBar?.apply {
+            setDisplayShowTitleEnabled(false)
             setDisplayShowHomeEnabled(true)
             setDisplayUseLogoEnabled(true)
             setLogo(R.drawable.logo_harry_potter)

@@ -1,5 +1,6 @@
 package com.example.wikipotter.ui
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,17 +21,18 @@ class MainViewModel : ViewModel() {
     private var rolFilters = mutableMapOf<String,Boolean>()
 
 
-    fun init(){
+    fun init(context: Context){
         //verifico si los map estan vacios
         if (houseFilters.isEmpty() && rolFilters.isEmpty()){
             initFilters()
         }
         CoroutineScope(newSingleThreadContext("characts")).launch {
              kotlin.runCatching {
-                 charcRepo.getCharacters()
+                 charcRepo.getCharacters(context)
             }.onSuccess {
                 Log.d("DEMO_APIS","HarryPotter onSucces")
                 originList = it
+                 favsOrOrigin = it
                 characters2.postValue(it)
              }.onFailure {
                  Log.e("DEMO_APIS","HarryPotter onFailure Error "+it)

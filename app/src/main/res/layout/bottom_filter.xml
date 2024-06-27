@@ -8,14 +8,14 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <ImageButton
+    <Button
         android:id="@+id/closeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_gravity="end"
-        android:background="?attr/selectableItemBackground"
-        android:contentDescription="@string/close"
-        android:src="@drawable/close" />
+        android:background="#00FFFFFF"
+        android:padding="12dp"
+        app:icon="@drawable/close" />
 
     <!-- Opciones de filtro para House -->
     <TextView
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Rol"
+        android:text="Role"
         android:textSize="16sp" />
 
     <CheckBox
@@ -90,14 +90,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Favoritos"
+        android:text="Favorites"
         android:textSize="16sp" />
 
     <Button
         android:id="@+id/favBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ver Favoritos" />
+        android:text="see favorites" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:padding="8dp"
-            android:text="Aplicar Filtros"
+            android:text="apply filters"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -121,7 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Ver Todos "
+            android:text=" see all"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

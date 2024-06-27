@@ -4,6 +4,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -43,8 +44,10 @@ class CharacterActivity : AppCompatActivity() {
     lateinit var pb: ProgressBar
     lateinit var vm: CharacterViewModel
     lateinit var ib: ImageButton
+    lateinit var backBtn: Button
     private val charcRepo: CharacterRepository = CharacterRepository()
     private var isFavorite: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +85,7 @@ class CharacterActivity : AppCompatActivity() {
         actor = findViewById(R.id.txtActor)
         pb = findViewById(R.id.pbChar)
         ib = findViewById(R.id.btn_favorite)
+        backBtn = findViewById(R.id.backBtn)
 
         //Extraigo el id y el gmail del intent
         val id = intent.getStringExtra("id")!!
@@ -107,7 +111,16 @@ class CharacterActivity : AppCompatActivity() {
             ancestry.text = "Ancestry: ${it.ancestry}"
             eyesColour.text = "Eye Colour: ${it.eyeColour}"
             hairColour.text = "Hair Colour: ${it.hairColour}"
-            wand.text = "Wand: ${it.wand.wood}, ${it.wand.core}"
+            var textwand: String
+            if(it.wand.wood!=""){
+                textwand = it.wand.wood
+                if (it.wand.core!=""){
+                    textwand += ", ${it.wand.core}"
+                }
+            }else if (it.wand.core!=""){
+                textwand = it.wand.core
+            } else textwand = ""
+            wand.text = "Wand: ${textwand}"
             patronus.text = "Patronus: ${it.patronus}"
             if (it.hogwartsStudent){
                 hogwartsRole.text = "Role: Student"
@@ -131,6 +144,10 @@ class CharacterActivity : AppCompatActivity() {
             }
             ib.isSelected = !ib.isSelected //Cambia la estrella
             isFavorite = !isFavorite // Cambiar el estado
+        }
+
+        backBtn.setOnClickListener{
+            onBackPressed()
         }
     }
 }

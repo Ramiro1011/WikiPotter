@@ -1,8 +1,14 @@
 package com.example.wikipotter.data
 
+import android.content.Context
 import android.util.Log
+import com.example.wikipotter.data.dbLocal.AppDataBase
+import com.example.wikipotter.data.dbLocal.CharacterLocal
+import com.example.wikipotter.data.dbLocal.toCharactersList
+import com.example.wikipotter.data.dbLocal.toCharactersLocalList
 import com.example.wikipotter.model.Characters
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
@@ -38,14 +44,29 @@ class CharacterDataSource {
             }
         }
 
-        suspend fun getCharacters():ArrayList<Characters>{
+        suspend fun getCharacters(context: Context):ArrayList<Characters>{
             Log.d("DEMO_APIS", "HarryPotter Characters Datasource Get")
+
+            //Recupero los personajes de la base de datos local (si existen)
+            var db =AppDataBase.getInstance(context)
+            var caractersLocal = db.charactersDAO().getAll()
+            if (caractersLocal.isNotEmpty()){
+                Log.d("DEMO_APIS", "devuelvo lista Local")
+                return caractersLocal.toCharactersList() as ArrayList<Characters>
+            }
+
+            //Recupero todos los personajes de la api
             var result = api.getCharacters().execute()
 
             return if (result.isSuccessful) {
                 Log.d("DEMO_APIS", "HarryPotter Characters Datasource result Exitoso")
                 result = setImage(result)
-                result.body() ?: ArrayList<Characters>()
+
+                var uList = result.body() ?: ArrayList<Characters>()
+                if (uList.isNotEmpty()){
+                    db.charactersDAO().save(*uList.toCharactersLocalList().toTypedArray())
+                }
+                uList
             } else {
                 Log.e("DEMO_APIS", "HarryPotter Characters Datasource result Error" + result.message())
                 ArrayList<Characters>()
@@ -70,12 +91,22 @@ class CharacterDataSource {
         }
 
         suspend fun setCharcFav(email: String,character: Characters){
-            Log.d("DEMO_APIS", "HarryPotter SetEmailId Datasource")
-            db.collection("favUser").document(email).collection("favoritos").document(character.id).set(character)
+            try {
+                Log.d("DEMO_APIS", "HarryPotter SetEmailId Datasource")
+                db.collection("favUser").document(email).collection("favoritos").document(character.id).set(character)
+            } catch (e:Exception){
+                e.printStackTrace()
+            }
+
         }
 
         suspend fun getChrtsFav(email: String): Task<QuerySnapshot> {
-            return db.collection("favUser").document(email).collection("favoritos").get()
+            return try{
+                db.collection("favUser").document(email).collection("favoritos").get()
+            } catch (e:Exception){
+                e.printStackTrace()
+                Tasks.forException<QuerySnapshot>(e)
+            }
         }
 
         suspend fun getChrtFav(email:String, id: String): Boolean{
@@ -89,7 +120,12 @@ class CharacterDataSource {
         }
 
         suspend fun removeChrctFav(email: String, id: String) {
-            db.collection("favUser").document(email).collection("favoritos").document(id).delete()
+            try {
+                db.collection("favUser").document(email).collection("favoritos").document(id)
+                    .delete()
+            } catch (e:Exception){
+                e.printStackTrace()
+            }
         }
 
         private fun setImage(lista: Response<ArrayList<Characters>>): Response<ArrayList<Characters>> {

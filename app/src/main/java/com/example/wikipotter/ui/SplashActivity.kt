@@ -3,6 +3,7 @@ package com.example.wikipotter.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.activity.enableEdgeToEdge
@@ -11,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.example.wikipotter.R
+import kotlinx.coroutines.delay
 
 
 class SplashActivity : AppCompatActivity() {
@@ -33,7 +35,6 @@ class SplashActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         Thread {
             while (progressStatus < 100) {
                 progressStatus++
