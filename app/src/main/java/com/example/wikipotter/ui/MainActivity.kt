@@ -1,12 +1,10 @@
 package com.example.wikipotter.ui
 
 import android.content.Intent
-import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -22,7 +20,8 @@ import com.example.wikipotter.R
 import com.example.wikipotter.utis.BlurBuilder
 import com.google.firebase.auth.FirebaseAuth
 
-class MainActivity : AppCompatActivity(), FilterBottomSheetFragment.FilterListener {
+
+class MainActivity : AppCompatActivity(), FilterListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var rvCharaters: RecyclerView
@@ -42,21 +41,24 @@ class MainActivity : AppCompatActivity(), FilterBottomSheetFragment.FilterListen
         window.statusBarColor = ContextCompat.getColor(this, R.color.white)
 
         //Para poner el fondo borroso
-        val rootLayout = findViewById<ConstraintLayout>(R.id.activityCharacter)
+        val rootLayout = findViewById<ConstraintLayout>(R.id.activityMain)
         val background = resources.getDrawable(R.drawable.fondo_hogwarts, null)
         val blurredBackground = BlurBuilder.blur(this, background)
         rootLayout.background = BitmapDrawable(resources, blurredBackground)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityCharacter)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityMain)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        //obtengo la instancia del firebaseAuth
         firebaseAuth = FirebaseAuth.getInstance()
+        //checkeo que el usuario este en el firebase
         checkUser()
+        //Obtiene el mail del usuario
         val email = firebaseAuth.currentUser!!.email!!
-
-        setRV(email)
+        //Setea el reciclerView y el adapter
+        setRVA(email)
 
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
@@ -64,54 +66,34 @@ class MainActivity : AppCompatActivity(), FilterBottomSheetFragment.FilterListen
             adapter.update(it)
         }
 
+
         viewModel.init(this)
 
     }
 
-    private fun setRV(email: String){
+    private fun setRVA(email: String){
+        //set del reciclerView y del adapter
         rvCharaters = findViewById(R.id.rvCharaters)
         rvCharaters.layoutManager = GridLayoutManager(this, 2)
         adapter=CharactersAdapter(email)
         rvCharaters.adapter = adapter
-        rvCharaters.addItemDecoration(SpaceItemDecoration(4, 10))
     }
 
     private fun checkUser(){
         val firebaseUser = firebaseAuth.currentUser
         if (firebaseUser == null){
+            //si el usuario no esta, llamo a la pantalla del login para que ingrese
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
     }
 
-    class SpaceItemDecoration(private val space: Int, private val largerSpace: Int) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            val position = parent.getChildAdapterPosition(view)
-            val column = position % 2
-
-            outRect.left = space / 2
-            outRect.right = space / 2
-            outRect.bottom = space
-
-            if (column == 0) {
-                outRect.left = space
-                outRect.right = space / 2
-            } else {
-                outRect.left = space / 2
-                outRect.right = space
-            }
-
-            if (position < 2) {
-                outRect.top = largerSpace
-            } else {
-                outRect.top = space
-            }
-        }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflar el menu
         menuInflater.inflate(R.menu.main_menu, menu)
 
+        // Configurar la barra de acción
         supportActionBar?.apply {
             setDisplayShowTitleEnabled(false)
             setDisplayShowHomeEnabled(true)
@@ -119,10 +101,11 @@ class MainActivity : AppCompatActivity(), FilterBottomSheetFragment.FilterListen
             setLogo(R.drawable.logo_harry_potter)
         }
 
-
+        //Obtengo los elementos del menu
         val searchItem = menu.findItem(R.id.app_bar_search)
         val searchView = searchItem.actionView as SearchView
 
+        //Que define lo que pasa cuando apretamos en el search
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -130,22 +113,26 @@ class MainActivity : AppCompatActivity(), FilterBottomSheetFragment.FilterListen
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText.isNullOrEmpty()) {
+                    // Restaurar la lista original si la búsqueda está vacía
                     adapter.restoreOriginalList()
                 } else {
+                    // Filtra la lista según el texto de búsqueda
                     adapter.filter(newText ?: "")
                 }
                 return true
             }
         })
-
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_filter -> {
+                // Crear una instancia del fragmento de filtro
                 val filterFragment = FilterBottomSheetFragment()
+                // Establece un listener para recibir eventos de filtro
                 filterFragment.setFilterListener(this)
+                // Muestra el fragmento de filtro utilizando el FragmentManager
                 filterFragment.show(supportFragmentManager, FilterBottomSheetFragment.TAG)
                 return true
             }

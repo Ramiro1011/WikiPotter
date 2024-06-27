@@ -14,11 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.wikipotter.R
-import com.example.wikipotter.data.CharacterDataSource
 import com.example.wikipotter.data.CharacterRepository
 import com.example.wikipotter.utis.BlurBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -59,8 +57,6 @@ class CharacterActivity : AppCompatActivity() {
         val blurredBackground = BlurBuilder.blur(this, background)
         rootLayout.background = BitmapDrawable(resources, blurredBackground)
 
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityCharacter)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -136,9 +132,11 @@ class CharacterActivity : AppCompatActivity() {
         ib.setOnClickListener {
             Log.d("DEMO_APIS", "Estado en onClick:" + isFavorite)
             CoroutineScope(Dispatchers.IO).launch {
-                if (isFavorite) {//Evalua el estado, si se encuentra en favoritos o no
+                if (isFavorite) { //Evalua el estado, si se encuentra en favoritos o no
+                    //si esta lo saca de favoritos
                     charcRepo.removeChrctFav(email, id)
                 } else {
+                    //si no esta lo agrega
                     charcRepo.setChrctFav(email, vm.characters2.value!!)
                 }
             }
@@ -146,6 +144,7 @@ class CharacterActivity : AppCompatActivity() {
             isFavorite = !isFavorite // Cambiar el estado
         }
 
+        //vuelve a la pantalla principal
         backBtn.setOnClickListener{
             onBackPressed()
         }
