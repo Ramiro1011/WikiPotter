@@ -16,9 +16,10 @@ class CharacterRepository {
     suspend fun getCharacters(context: Context): ArrayList<Characters>{
         return CharacterDataSource.Companion.getCharacters(context)
     }
+
     //Un personaje por id
-    suspend fun getCharacterId(id:String): Characters? {
-        return CharacterDataSource.Companion.getCharacterId(id)
+    suspend fun getCharacterId(id:String,context: Context): Characters? {
+        return CharacterDataSource.Companion.getCharacterId(id, context)
     }
     //Setea el favorito
     suspend fun setChrctFav(email:String,character: Characters){

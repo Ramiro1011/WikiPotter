@@ -33,7 +33,6 @@ class CharacterActivity : AppCompatActivity() {
     lateinit var species: TextView
     lateinit var house: TextView
     lateinit var dateOfBirth: TextView
-    lateinit var yearOfBirth: TextView
     lateinit var ancestry: TextView
     lateinit var eyesColour: TextView
     lateinit var hairColour: TextView
@@ -124,13 +123,14 @@ class CharacterActivity : AppCompatActivity() {
             patronus.text = "Patronus: ${it.patronus}"
             if (it.hogwartsStudent){
                 hogwartsRole.text = "Role: Student"
-            } else{ hogwartsRole.text = "Role :Staff"}
+            } else if(it.hogwartsStaff){ hogwartsRole.text = "Role: Staff"}
+            else {hogwartsRole.text = "Role: "}
             actor.text = it.actor
             pb.visibility = View.INVISIBLE
         }
 
         pb.visibility = View.VISIBLE
-        vm.init(id)
+        vm.init(id,this)
 
         //Le digo al boton que debe hacer
         ib.setOnClickListener {

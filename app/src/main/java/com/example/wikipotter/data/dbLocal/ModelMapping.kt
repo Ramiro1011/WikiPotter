@@ -7,14 +7,14 @@ import com.example.wikipotter.model.Wand
 fun CharacterLocal.toCharacters(): Characters = Characters(
     id,
     name,
-    alternes_name.split(", ") as ArrayList<String> ?: ArrayList<String>(),
+    stringToArray(alternes_name),
     species,
     house,
     dateOfBirth ?: "",
     ancestry ?: "",
     eyeColour ?: "",
     hairColour ?: "",
-    (stringToWand(wand)) ?: Wand("","",0.0),
+    (stringToWand(wand)),
     patronus ?: "",
     hogwartsStudent,
     hogwartsStaff,
@@ -24,14 +24,14 @@ fun CharacterLocal.toCharacters(): Characters = Characters(
 fun Characters.toCharacterLocal(): CharacterLocal = CharacterLocal(
     id,
     name,
-    alternes_name.joinToString { ", " } ?: "",
+    arrayToString(alternes_name),
     species,
     house,
     dateOfBirth ?: "",
     ancestry ?: "",
     eyeColour ?: "",
     hairColour ?: "",
-    "${wand.wood}, ${wand.core}, ${wand.length}" ?: "",
+    wandToString(wand),
     patronus ?: "",
     hogwartsStudent,
     hogwartsStaff,
@@ -39,8 +39,36 @@ fun Characters.toCharacterLocal(): CharacterLocal = CharacterLocal(
     image)
 
 private fun stringToWand( str: String): Wand{
+    if (str == ""){
+        return Wand("","",0.0)
+    }
     var parts = str.split(", ")
     return Wand(parts[0], parts[1], parts[2].toDouble())
+}
+
+private fun stringToArray(str: String): ArrayList<String>{
+    if (str == ""){
+        return ArrayList<String>()
+    }
+    return str.split( ", " ).toCollection(ArrayList<String>())
+}
+
+private fun arrayToString(a: ArrayList<String>): String{
+    if (a.size==0){
+        return ""
+    }
+    return a.joinToString { ", " }
+}
+
+private fun wandToString(wand: Wand): String{
+    var str = ArrayList<String>()
+    if (wand.wood!= "") {
+        str.add(wand.wood)
+    }
+    if (wand.core != ""){
+        str.add(wand.core)
+    }
+    return arrayToString(str)
 }
 
 fun List<CharacterLocal>.toCharactersList() = map(CharacterLocal::toCharacters)

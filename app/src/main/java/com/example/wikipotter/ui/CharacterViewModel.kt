@@ -1,5 +1,6 @@
 package com.example.wikipotter.ui
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,10 +14,10 @@ class CharacterViewModel: ViewModel() {
     private val charcRepo: CharacterRepository = CharacterRepository()
     var characters2: MutableLiveData<Characters> = MutableLiveData<Characters>()
 
-    fun init(id:String){
+    fun init(id:String, context: Context){
         CoroutineScope(newSingleThreadContext("character")).launch {
             kotlin.runCatching {
-                charcRepo.getCharacterId(id)
+                charcRepo.getCharacterId(id, context)
             }.onSuccess {
                 Log.d("DEMO_APIS","HarryPotter onSucces")
                 characters2.postValue(it ?: Characters())

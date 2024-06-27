@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.example.wikipotter.data.dbLocal.AppDataBase
 import com.example.wikipotter.data.dbLocal.CharacterLocal
+import com.example.wikipotter.data.dbLocal.toCharacters
 import com.example.wikipotter.data.dbLocal.toCharactersList
 import com.example.wikipotter.data.dbLocal.toCharactersLocalList
 import com.example.wikipotter.model.Characters
@@ -50,7 +51,7 @@ class CharacterDataSource {
             //Recupero los personajes de la base de datos local (si existen)
             var db =AppDataBase.getInstance(context)
             var caractersLocal = db.charactersDAO().getAll()
-            if (caractersLocal.isNotEmpty()){
+            if (caractersLocal.size>0){
                 Log.d("DEMO_APIS", "devuelvo lista Local")
                 return caractersLocal.toCharactersList() as ArrayList<Characters>
             }
@@ -74,9 +75,18 @@ class CharacterDataSource {
 
         }
 
-        suspend fun getCharacterId(id:String): Characters? {
+        suspend fun getCharacterId(id:String,context: Context): Characters? {
             Log.d("DEMO_APIS", "HarryPotter CharacterId Datasource Get")
 
+            //recupero un personaje de la bd local
+            var db =AppDataBase.getInstance(context)
+            var caracterLocal = db.charactersDAO().getById(id)
+            if (caracterLocal.id.length>0){
+                Log.d("DEMO_APIS", "devuelvo lista Local")
+                return caracterLocal.toCharacters()
+            }
+
+            //recupero un personaje de la api
             var result = api.getCharacterId(id).execute()
 
             return if (result.isSuccessful) {
